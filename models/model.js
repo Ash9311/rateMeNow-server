@@ -1,8 +1,8 @@
 const express = require("express");
 const { default: mongoose } = require("mongoose");
-const { CONNECTION_STRING } = require('../config/config');
 
-mongoose.connect(CONNECTION_STRING);
+
+mongoose.connect(process.env.CONNECTION_STRING);
 
 const userSchema = mongoose.Schema({
     username: String,
