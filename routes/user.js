@@ -90,9 +90,14 @@ router.post("/signup", async (req, res) => {
         });
 
         const userId = user._id;
-        await Account.create({ userId, rating: { overallRating: 1 } })
+        await Account.create({
+            userId, rating: [
+
+            ]
+        })
         const token = jwt.sign({ userId }, process.env.JWT_SECRET);
-        res.status(201).json({ message: "User created successfully", token });
+        const userDetails = { firstName: user.firstName, lastName: user.lastName, userId: userId };
+        res.status(201).json({ message: "User created successfully", token, userDetails });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
@@ -116,7 +121,8 @@ router.post('/signin', async (req, res) => {
 
         if (user) {
             const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-            res.json({ token });
+            const userDetails = { firstName: user.firstName, lastName: user.lastName, userId: user._id };
+            res.json({ token, userDetails });
             return;
         }
 

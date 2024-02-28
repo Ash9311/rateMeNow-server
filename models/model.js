@@ -18,16 +18,16 @@ const accountSchema = mongoose.Schema({
         required: true
     },
     rating: [{
-        Kindness: { type: Number, required: false, min: 1, max: 5 },
-        trustWorthy: { type: Number, required: false, min: 1, max: 5 },
-        ProblemSolvingSkills: { type: Number, required: false, min: 1, max: 5 },
-        Professionalism: { type: Number, required: false, min: 1, max: 5 },
-        Adaptability: { type: Number, required: false, min: 1, max: 5 },
-        Teamwork: { type: Number, required: false, min: 1, max: 5 },
-        CommunicationSkills: { type: Number, required: false, min: 1, max: 5 },
-        SenseOfHumor: { type: Number, required: false, min: 1, max: 5 },
-        overallRating: { type: Number, required: false, min: 1, max: 5 }
-
+        Kindness: { type: Number, required: false, min: 0, max: 5 },
+        TrustWorthy: { type: Number, required: false, min: 0, max: 5 },
+        ProblemSolvingSkills: { type: Number, required: false, min: 0, max: 5 },
+        Professionalism: { type: Number, required: false, min: 0, max: 5 },
+        Adaptability: { type: Number, required: false, min: 0, max: 5 },
+        Teamwork: { type: Number, required: false, min: 0, max: 5 },
+        CommunicationSkills: { type: Number, required: false, min: 0, max: 5 },
+        SenseOfHumor: { type: Number, required: false, min: 0, max: 5 },
+        OverallRating: { type: Number, required: false, min: 0, max: 5 },
+        RatedBy: { type: mongoose.Schema.Types.ObjectId, required: false },
     }
     ]
 })
