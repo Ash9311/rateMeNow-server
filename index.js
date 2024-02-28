@@ -13,5 +13,6 @@ app.use("/api/v1", mainRouter)
 
 
 app.listen(process.env.PORT, () => { console.log(`server listening on port ${process.env.PORT}`) })
+//app.listen(4000, () => { console.log(`server listening on port 4000`) })
 
 module.exports = app;
