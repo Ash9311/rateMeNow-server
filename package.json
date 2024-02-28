@@ -16,6 +16,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.0",
     "robotjs": "^0.6.0",
+    "vercel": "^33.5.3",
     "zod": "^3.22.4"
   }
 }
