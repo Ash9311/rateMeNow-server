@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const zod = require("zod");
 const { User, Account } = require("../models/model");
 const { authMiddleWare } = require("../middlewares/middleware");
+const bcrypt = require('bcrypt');
 
 
 const signupSchema = zod.object({
@@ -45,10 +46,10 @@ router.get("/bulk", authMiddleWare, async (req, res) => {
     const users = await User.find({
         $or: [
             {
-                firstName: { "$regex": filter }
+                firstName: { "$regex": filter, "$options": "i" }
             },
             {
-                lastName: { "$regex": filter }
+                lastName: { "$regex": filter, "$options": "i" }
             }
         ]
     })
@@ -82,9 +83,11 @@ router.post("/signup", async (req, res) => {
     }
 
     try {
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const user = await User.create({
             username: req.body.username,
-            password: req.body.password,
+            password: hashedPassword,
             firstName: req.body.firstName,
             lastName: req.body.lastName
         });
@@ -114,12 +117,12 @@ router.post('/signin', async (req, res) => {
     }
 
     try {
+
         const user = await User.findOne({
-            username: req.body.username,
-            password: req.body.password
+            username: req.body.username
         });
 
-        if (user) {
+        if (user && await bcrypt.compare(req.body.password, user.password)) {
             const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
             const userDetails = { firstName: user.firstName, lastName: user.lastName, userId: user._id };
             res.json({ token, userDetails });

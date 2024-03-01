@@ -33,12 +33,24 @@ router.post('/submitRating', async (req, res) => {
 })
 
 router.get("/userDetails", async (req, res) => {
-    const { userId } = req.query;
+    const { userId } = req.query || "";
     try {
-        const account = await Account.findOne({ userId });
+        let account;
+        if (userId) {
+            account = await Account.find({ userId });
+        }
+        else {
+            account = await Account.find({});
+        }
+
         if (!account) {
             return res.status(404).json({ message: 'Account not found' })
         }
+        // let account = accounts.map(account => ({
+        //     _id: account._id,
+        //     OverallRating: account.rating.reduce((sum, rating) => sum + rating.OverallRating, 0) / account.rating.length,
+        //     ratingLength: account.rating.length
+        // }))
         return res.status(200).json({ account })
     } catch (error) {
         console.error(error);
